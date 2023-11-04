@@ -25,9 +25,13 @@ public class TodoAppController {
         this.todoService = todoService;
     }
 
+    private static String getLoggedInUsername(ModelMap modelMap) {
+        return (String) modelMap.get("name");
+    }
+
     @RequestMapping("list-todos")
     public String listTodos(ModelMap modelMap) {
-        String username = (String) modelMap.get("name");
+        String username = getLoggedInUsername(modelMap);
         List<Todo> todos = todoService.findByUserName(username);
         modelMap.put("todos", todos);
         return "todo/listTodos";
@@ -35,7 +39,7 @@ public class TodoAppController {
 
     @RequestMapping(value = "add-todo", method = RequestMethod.GET)
     public String addNewTodo(ModelMap modelMap) {
-        String username = (String) modelMap.get("name");
+        String username = getLoggedInUsername(modelMap);
         Todo todo = new Todo(0, username, "", LocalDate.now().plusYears(1), false);
         modelMap.put("todo", todo);
         return "todo/newTodo";
@@ -43,7 +47,7 @@ public class TodoAppController {
 
     @RequestMapping(value = "add-todo", method = RequestMethod.POST)
     public String submitNewTodo(ModelMap modelMap, @Valid Todo todo, BindingResult result) {
-        String username = (String) modelMap.get("name");
+        String username = getLoggedInUsername(modelMap);
         if (result.hasErrors()) {
             return "todo/newTodo";
         }
@@ -53,14 +57,14 @@ public class TodoAppController {
 
     @RequestMapping("delete-todo")
     public String deleteTodo(@RequestParam int id, ModelMap modelMap) {
-        String username = (String) modelMap.get("name");
+        String username = getLoggedInUsername(modelMap);
         todoService.deleteTodo(username, id);
         return "redirect:list-todos";
     }
 
     @RequestMapping(value = "update-todo", method = RequestMethod.GET)
     public String showUpdateTodo(@RequestParam int id, ModelMap modelMap) {
-        String username = (String) modelMap.get("name");
+        String username = getLoggedInUsername(modelMap);
         Todo todo = todoService.getTodo(username, id);
         modelMap.put("todo", todo);
         return "todo/newTodo";
@@ -68,7 +72,7 @@ public class TodoAppController {
 
     @RequestMapping(value = "update-todo", method = RequestMethod.POST)
     public String updateTodo(ModelMap modelMap, @Valid Todo todo, BindingResult result) {
-        String username = (String) modelMap.get("name");
+        String username = getLoggedInUsername(modelMap);
         todo.setUserName(username);
         if (result.hasErrors()) {
             return "todo/newTodo";

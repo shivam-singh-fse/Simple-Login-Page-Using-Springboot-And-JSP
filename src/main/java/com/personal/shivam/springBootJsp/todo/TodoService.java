@@ -12,14 +12,6 @@ public class TodoService {
     public static List<Todo> todoList = new ArrayList<>();
     private static int count = 0;
 
-    static {
-        todoList.add(new Todo(++count, "shivam", "Learn AWS", LocalDate.now().plusYears(1), false));
-        todoList.add(new Todo(++count, "shivam", "Learn GCP", LocalDate.now().plusYears(1), false));
-        todoList.add(new Todo(++count, "shivam", "Learn Azure", LocalDate.now().plusYears(1), false));
-        todoList.add(new Todo(++count, "shivam", "Learn NextJS", LocalDate.now().plusYears(1), false));
-        todoList.add(new Todo(++count, "shivam", "Learn ReactJS", LocalDate.now().plusYears(1), false));
-    }
-
     public List<Todo> findByUserName(String username) {
         return todoList.stream().filter(todo -> todo.getUserName().equals(username)).toList();
     }
