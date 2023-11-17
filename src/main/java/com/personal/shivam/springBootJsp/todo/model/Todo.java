@@ -1,16 +1,27 @@
 package com.personal.shivam.springBootJsp.todo.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Size;
+import jdk.jfr.Enabled;
 
 import java.time.LocalDate;
 
-
+@Entity
 public class Todo {
+    @Id
+    @GeneratedValue
     int id;
+    @Column
     String userName;
+    @Column
     @Size(min = 10, message = "Enter at least 10 characters.")
     String description;
+    @Column
     LocalDate completedBy;
+    @Column
     boolean done;
 
     public Todo(int id, String userName, String description, LocalDate completedBy, boolean done) {
