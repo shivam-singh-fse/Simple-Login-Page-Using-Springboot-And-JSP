@@ -32,6 +32,10 @@ public class Todo {
         this.done = done;
     }
 
+    public Todo() {
+        
+    }
+
     public int getId() {
         return id;
     }
